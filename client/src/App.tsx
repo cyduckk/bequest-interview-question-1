@@ -168,8 +168,20 @@ function App() {
       );
 
       console.log("Signature verification result:", isVerified);
-      // set the data from the server
-      setData(message); 
+
+      //if data is verified, add to local storage:
+      if(isVerified){
+        localStorage.setItem("message",JSON.stringify(message));
+        // set the data from the server
+        setData(message); 
+      //verified, get last verified input from local storage
+      //update data must be run again to resync data with server
+      }else{
+        const oldMessage = localStorage.getItem("message");
+        const trimmedOldMessage = oldMessage?.substring(1,oldMessage.length - 1)
+        setData(trimmedOldMessage? trimmedOldMessage : "");
+      }
+
   } catch (error) {
       console.error("Error in getData:", error);
   }

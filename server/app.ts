@@ -10,6 +10,7 @@ const app = express();
 const database = { data: "Hello World" };
 
 
+//initialize and generate server public, private keys
 let { publicKey, privateKey } = crypto.generateKeyPairSync('rsa', {
   modulusLength: 2048,  
   publicKeyEncoding: {
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
   // Create a signer and pass in the message
   const signer = crypto.createSign('sha256');
   signer.update(message);
+
   const signature = signer.sign(privateKey, 'base64'); // signature in base64
 
   // Send the message, signature, and public key
